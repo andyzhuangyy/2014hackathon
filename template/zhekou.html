@@ -44,6 +44,12 @@ input {
 <script type="text/javascript">
 
 	Bmob.initialize("f68361468fc3da0e4cad11abe332f52b", "24bea47249265caff6d88889ff0aaf01");
+	/*
+	 *1:List View
+	 *2:Map View
+	 *3:Pub View
+	 */
+	var current_view = 1;
 
 	var all_query_zhekou = [];
 
@@ -70,25 +76,25 @@ input {
 		var td4 = tr.insertCell(4);
 		var td5 = tr.insertCell(5);
 
-		td0.innerHTML = '<td>' + obj.get('usr') + '</td>';
-		td1.innerHTML = '<td>' + obj.get('brand') + '</td>';
+		td0.innerHTML = '<td>' + obj.usr + '</td>';
+		td1.innerHTML = '<td>' + obj.brand + '</td>';
 		if(!ishead) {
-			td2.innerHTML = '<td class="desc" style="width:240px">' + '<a href=javascript:dazhe_location(\"' + obj.get('usr') + '\")>' 
-				+ obj.get('desc') + '</a>' + '</td>';
+			td2.innerHTML = '<td class="desc" style="width:240px">' + '<a href=javascript:dazhe_location(\"' + obj.usr + '\")>' 
+				+ obj.desc + '</a>' + '</td>';
 			td4.innerHTML = '<td>' + '<image src="./../img/like.png">' + '</td>';
 			td5.innerHTML = '<td>' + '<image src="./../img/dislike.png">' + '</td>';
 		}
 		else {
-			td2.innerHTML = '<td class="desc" style="width:240px">' + obj.get('desc') + '</td>';
+			td2.innerHTML = '<td class="desc" style="width:240px">' + obj.desc + '</td>';
 			td4.innerHTML = '<td>' + '赞' + '</td>';
 			td5.innerHTML = '<td>' + '踩' + '</td>';
 		}
-		td3.innerHTML = '<td>' + obj.get('discount') + '</td>';
+		td3.innerHTML = '<td>' + obj.discount + '</td>';
 		td2.style.width = "300px";
 	}
 
 	function dazhe_list_add_head() {
-		var obj = {usr:"用户", brand:"商店", desc:"折扣信息", discount:"折扣"};
+		var obj = {usr:"用户", brand:"商店", desc:"折扣信息", discount:"折扣", up:"赞", down:"踩"};
 		obj.get = function (attr) {
 			return obj[attr];
 		}
@@ -98,8 +104,8 @@ input {
 	function list_display(results) {
 		store_query_zhekou(results);
 		dazhe_list_add_head();
-		for (var i = 0; i < results.length; i++) {
-			var obj = results[i];
+		for (var i = 0; i < all_query_zhekou.length; i++) {
+			var obj = all_query_zhekou[i];
 			dazhe_list_add(obj, false);
 		}
 	}
@@ -162,10 +168,11 @@ input {
 		//QueryDaZheByGeo((16, 39), list_display);
 	}
 
-	function change_view() {
-		window.document.getElementById("dazhe_map_div").style.display="block";
+	function list_to_map_view() {
 		window.document.getElementById("dazhe_list_div").style.display="none";
-		var lnglat = new AMap.LngLat(39.90923, 116.39742816);
+		window.document.getElementById("dazhe_map_div").style.display="block";
+
+		var lnglat = new AMap.LngLat(116.39742816, 39.90923);
 		mapObj = new AMap.Map("dazhe_map_div", {
 			view: new AMap.View2D({
 				center:lnglat, 
@@ -173,7 +180,14 @@ input {
 				rotation:0
 					  })
 				});
+		var dazhe_page = "<h3 align=center>" + all_query_zhekou[0].brand + "</h3><p>折扣:" + all_query_zhekou[0].discount 
+			+ "</p><p>描述:" + all_query_zhekou[0].desc + "</p>";
+		var geo_point = new Object();
 		/*
+		geo_point.lng = lng;
+		geo_point.lat = lat;
+		addmarker_cus(0, geo_point, dazhe_page);
+		*/
 		for(var index = 0; index < all_query_zhekou.length; index++) {
 			var geo_point = new Object();
 			geo_point.lng = all_query_zhekou[index].geo_point.longitude;
@@ -182,7 +196,22 @@ input {
 				+ "</p><p>描述:" + all_query_zhekou[index].desc + "</p>";
 			addmarker_cus(0, geo_point, dazhe_page);
 		}
-		*/
+	}
+
+	function map_to_list_view() {
+		window.document.getElementById("dazhe_map_div").style.display="none";
+		window.document.getElementById("dazhe_list_div").style.display="block";
+
+	}
+
+	function change_view() {
+		if(current_view == 1) {
+			current_view = 2;
+			list_to_map_view();
+		} else {
+			current_view = 1;
+			map_to_list_view();
+		}
 	}
 
 	window.onload = init();
