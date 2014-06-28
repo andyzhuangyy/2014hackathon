@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+<link href="/src/common.css" type="text/css" rel="stylesheet" />
+
+<style type="text/css">
+html{height:100%}
+body{height:100%;margin:0px;padding:0px}
+#dazhe_map_div{height:100%}
+</style>
+
+<style type="text/css">
+
+label { float:left;
+	display:block;
+}
+
+input {
+}
+
+</style>
+
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=yourkey">
+</script>
+<script type="text/javascript" src="/src/pos.js">
+</script>
+
+<script type="text/javascript" src="/src/bmob-min.js">
+</script>
+<script type="text/javascript" src="/src/zhekou_bmob.js">
+</script>
+<script type="text/javascript" src="/src/common.js">
+</script>
+
+<script type="text/javascript">
+
+	Bmob.initialize("f68361468fc3da0e4cad11abe332f52b", "24bea47249265caff6d88889ff0aaf01");
+
+	var all_query_zhekou = [];
+
+	function store_query_zhekou(results) {
+		for(var i = 0; i < results.length; i++) {
+			var obj = new Object();
+			obj.usr = results[i].get('usr');
+			obj.discount = results[i].get('discount');
+			obj.geo_point = results[i].get('geo_point');
+			obj.geo_id = results[i].get('geo_id');
+			obj.brand = results[i].get('brand');
+			obj.desc = results[i].get('desc');
+			all_query_zhekou[i] = obj;
+		}
+	}
+
+	function dazhe_list_add(obj, ishead) {
+		var tbl = window.document.getElementById("dazhe_list");
+		var tr = tbl.insertRow(tbl.rows.length);
+		var td0 = tr.insertCell(0);
+		var td1 = tr.insertCell(1);
+		var td2 = tr.insertCell(2);
+		var td3 = tr.insertCell(3);
+
+		td0.innerHTML = '<td>' + obj.get('usr') + '</td>';
+		td1.innerHTML = '<td>' + obj.get('brand') + '</td>';
+		if(!ishead)
+			td2.innerHTML = '<td class="desc" style="width:240px">' + '<a href=javascript:dazhe_location(\"' + obj.get('usr') + '\")>' 
+				+ obj.get('desc') + '</a>' + '</td>';
+		else
+			td2.innerHTML = '<td class="desc" style="width:240px">' + obj.get('desc') + '</td>';
+		td3.innerHTML = '<td>' + obj.get('discount') + '</td>';
+		td2.style.width = "300px";
+	}
+
+	function dazhe_list_add_head() {
+		var obj = {usr:"用户", brand:"商店", desc:"折扣信息", discount:"折扣"};
+		obj.get = function (attr) {
+			return obj[attr];
+		}
+		dazhe_list_add(obj, true);
+	}
+
+	function list_display(results) {
+		store_query_zhekou(results);
+		dazhe_list_add_head();
+		for (var i = 0; i < results.length; i++) {
+			var obj = results[i];
+			dazhe_list_add(obj, false);
+		}
+	}
+
+	function get_geo_point_by_id(_id) {
+		var geo_info = new Object();
+		for(var i = 0; i < all_query_zhekou.length; i++) {
+			if(all_query_zhekou[i].usr == _id) {
+				geo_info.lng = all_query_zhekou[i].geo_point.longitude;
+				geo_info.lat = all_query_zhekou[i].geo_point.latitude;
+				geo_info.id = all_query_zhekou[i].geo_id;
+				geo_info.brand = all_query_zhekou[i].brand;
+			}
+		}
+		return geo_info;
+	}
+
+	function get_brand_by_id(_id) {
+		for(var i = 0; i < all_query_zhekou.length; i++) {
+			if(all_query_zhekou[i].usr == _id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	function dazhe_location(_id) {
+		dv = window.document.getElementById("dazhe_list_div").style.display="none";
+		dv = window.document.getElementById("dazhe_map_div").style.display="block";
+		var index = get_brand_by_id(_id);
+		var lng = all_query_zhekou[index].geo_point.longitude;
+		var lat = all_query_zhekou[index].geo_point.latitude;
+		var lnglat = new AMap.LngLat(lng, lat);
+		mapObj = new AMap.Map("dazhe_map_div", {
+			view: new AMap.View2D({
+				center:lnglat, 
+				zoom:14,
+				rotation:0
+					  })
+				});
+
+		var dazhe_page = "<h3 align=center>" + all_query_zhekou[index].brand + "</h3><p>折扣:" + all_query_zhekou[index].discount 
+			+ "</p><p>描述:" + all_query_zhekou[index].desc + "</p>";
+		var geo_point = new Object();
+		geo_point.lng = lng;
+		geo_point.lat = lat;
+		addmarker_cus(0, geo_point, dazhe_page);
+	}
+
+	function init() {
+		var geo_point = new Bmob.GeoPoint(39.90923, 116.39742816);
+		QueryDaZheByGeo(geo_point, list_display);
+		//QueryDaZheByBrand("AnTa", list_display);
+	}
+
+	function test_api() {
+		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠");
+		//QueryDaZheByBrand("AnTa");
+		//var geo_point = new Bmob.GeoPoint(16, 39);
+		//QueryDaZheByGeo((16, 39), list_display);
+	}
+
+	window.onload = init();
+
+</script>
+
+<body>
+
+	<div class="dazhe_list_div" id="dazhe_list_div">
+		<table class="dazhe_list" id="dazhe_list">
+		</table>
+	</div>
+
+	<div class="dazhe_map_div" id = "dazhe_map_div">
+	</div>
+
+	<input type="button" name="Submit" value="分享" onClick="test_api()" >
+
+</body>
+
+</html>
+

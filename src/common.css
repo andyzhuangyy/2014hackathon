@@ -1,0 +1,42 @@
+
+
+button { 
+	width:120px; 
+	height:28px;
+}
+
+table { 
+	margin:0;
+	padding:0;
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+	border-spacing:0px;
+}
+
+tr {
+	margin:0;
+	padding:0;
+}
+
+td {
+	margin:0px 0px 0px 0px;
+	padding:1px;
+	border:1px solid #000;
+	border-left:0px solid #000;
+	border-right:0px solid #000;
+	text-align:center;
+	width:80px; 
+	height:28px;
+}
+
+/*
+td .desc {
+	width:240px; 
+}
+
+#dazhe_map_div {
+	display:none;
+}
+*/
+
+
