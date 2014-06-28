@@ -75,8 +75,8 @@ input {
 		if(!ishead) {
 			td2.innerHTML = '<td class="desc" style="width:240px">' + '<a href=javascript:dazhe_location(\"' + obj.get('usr') + '\")>' 
 				+ obj.get('desc') + '</a>' + '</td>';
-			td4.innerHTML = '<td>' + '<image src="./../img/.jpg">' + '</td>';
-			td5.innerHTML = '<td>' + '<image src="./../img/.jpg">' + '</td>';
+			td4.innerHTML = '<td>' + '<image src="./../img/like.png">' + '</td>';
+			td5.innerHTML = '<td>' + '<image src="./../img/dislike.png">' + '</td>';
 		}
 		else {
 			td2.innerHTML = '<td class="desc" style="width:240px">' + obj.get('desc') + '</td>';
@@ -127,8 +127,8 @@ input {
 	}
 
 	function dazhe_location(_id) {
-		dv = window.document.getElementById("dazhe_list_div").style.display="none";
-		dv = window.document.getElementById("dazhe_map_div").style.display="block";
+		window.document.getElementById("dazhe_list_div").style.display="none";
+		window.document.getElementById("dazhe_map_div").style.display="block";
 		var index = get_brand_by_id(_id);
 		var lng = all_query_zhekou[index].geo_point.longitude;
 		var lat = all_query_zhekou[index].geo_point.latitude;
@@ -156,13 +156,33 @@ input {
 	}
 
 	function pub_zhekou() {
-		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠");
+		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠", 39.90923, 116.39742816, "B000A83U0P");
 		//QueryDaZheByBrand("AnTa");
 		//var geo_point = new Bmob.GeoPoint(16, 39);
 		//QueryDaZheByGeo((16, 39), list_display);
 	}
 
 	function change_view() {
+		window.document.getElementById("dazhe_map_div").style.display="block";
+		window.document.getElementById("dazhe_list_div").style.display="none";
+		var lnglat = new AMap.LngLat(39.90923, 116.39742816);
+		mapObj = new AMap.Map("dazhe_map_div", {
+			view: new AMap.View2D({
+				center:lnglat, 
+				zoom:14,
+				rotation:0
+					  })
+				});
+		/*
+		for(var index = 0; index < all_query_zhekou.length; index++) {
+			var geo_point = new Object();
+			geo_point.lng = all_query_zhekou[index].geo_point.longitude;
+			geo_point.lat = all_query_zhekou[index].geo_point.latitude;
+			var dazhe_page = "<h3 align=center>" + all_query_zhekou[index].brand + "</h3><p>折扣:" + all_query_zhekou[index].discount 
+				+ "</p><p>描述:" + all_query_zhekou[index].desc + "</p>";
+			addmarker_cus(0, geo_point, dazhe_page);
+		}
+		*/
 	}
 
 	window.onload = init();

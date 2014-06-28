@@ -84,7 +84,7 @@ function onError (data) {
 //center及level属性缺省，地图默认显示用户所在城市范围
 //it have to be call at onload of body
 function mapInit(){
-    mapObj = new AMap.Map("iCenter",{
+    mapObj = new AMap.Map("dazhe_map_div",{
         view: new AMap.View2D({
         zoom:13 //地图显示的缩放级别
         })
@@ -117,7 +117,7 @@ function mapInit(){
 	});
 
     AMap.event.addListener(mapObj,'click', showClickPos);
-    document.getElementById("keyword").oninput = autoSearch;
+    //document.getElementById("keyword").oninput = autoSearch;
 
 }
  
@@ -457,6 +457,7 @@ function openMarkerTipById1(pointid,thiss){  //根据id打开搜索结果点tip
     thiss.style.background='#CAE1FF'; 
     windowsArr[pointid].open(mapObj, marker[pointid]);     
 } 
+
 function onmouseout_MarkerStyle(pointid,thiss) { //鼠标移开后点样式恢复 
    thiss.style.background="";  
 }
