@@ -120,7 +120,29 @@ function mapInit(){
     document.getElementById("keyword").oninput = autoSearch;
 
 }
- 
+
+function shareMapInit(){
+    mapObj = new AMap.Map("iCenter",{
+        view: new AMap.View2D({
+        zoom:13 //地图显示的缩放级别
+        })
+    });
+    //地图中添加地图操作ToolBar插件
+    mapObj.plugin(["AMap.ToolBar"],function(){     
+        toolBar = new AMap.ToolBar(); //设置地位标记为自定义标记
+        mapObj.addControl(toolBar); 
+        AMap.event.addListener(toolBar,'location',function callback(e){
+            locationInfo = e.lnglat;           
+
+            placeSearch(locationInfo, 1000, "购物中心","060101", getFirstSearchRes_CallBack);
+         
+
+        });	
+        posCurrent();
+        document.getElementById("shopname").oninput = autoSearchShopName;
+		
+   	});
+}
  
 /*
  *获取当前位置信息
@@ -140,6 +162,56 @@ function posCurrent(){
 }
 
 
+function autoSearchShopName() {
+    var keywords = document.getElementById("shopname").value;
+    var auto;
+    //加载输入提示插件
+    mapObj.plugin(["AMap.Autocomplete"], function() {
+        var autoOptions = {
+            city: "beijing", //城市，默认全国
+            type: "060000"
+        };
+        auto = new AMap.Autocomplete(autoOptions);
+        //查询成功时返回查询结果
+        if ( keywords.length > 0) {
+            AMap.event.addListener(auto,"complete",autocompleteShopName_CallBack);
+
+            auto.search(keywords);
+        }
+        else {
+            document.getElementById("shopsearchres").style.display = "none";
+        }
+    });
+}
+
+//从输入提示框中选择关键字并查询
+function selectResultShopName(index) {
+    //截取输入提示的关键字部分
+    var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
+    document.getElementById("shopname").value = text;
+    document.getElementById("shopsearchres").style.display = "none";
+}
+
+function autocompleteShopName_CallBack(data) {
+    var resultStr = "";
+    var tipArr = [];
+    if(data.tips == undefined)
+        return;
+    tipArr = data.tips;
+     
+    if (tipArr.length>0) {                
+        for (var i = 0; i < tipArr.length; i++) {
+            resultStr += "<div id='divid" + (i + 1) + "' onmouseover='openMarkerTipById1(" + (i + 1)
+                        + ",this)' onclick='selectResultShopName(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i + 1)
+                        + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+        }
+    }
+    else  {
+        resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。";
+    }
+    document.getElementById("shopsearchres").innerHTML = resultStr;
+    document.getElementById("shopsearchres").style.display = "block";
+}
 
 //输入提示
 function autoSearch() {
@@ -163,6 +235,8 @@ function autoSearch() {
         }
     });
 }
+
+
 
 function autocomplete_CallBack(data) {
     var resultStr = "";
@@ -209,7 +283,7 @@ function searchShopServcie(_lnglat,radius){
     //var precise = {lng: 0.05, lat: 0.05};
     //var radius = 1000;
     var poi = "060000";
-    placeSearch(_lnglat, radius,"商场", poi);
+    placeSearch(_lnglat, radius,"商场", poi, placeSearch_CallBack);
 }
 
 
@@ -270,9 +344,13 @@ function showMarkOnMap(mypoiarr){
 }
 
 
+
+
+
+
 //地点查询函数    
 //centerpos = {lng:"", lat:""};
-function placeSearch(centerpos, radius, keyword,placetype){
+function placeSearch(centerpos, radius, keyword,placetype, callback){
     mapObj.clearMap();
     var arr = new Array();
     var MSearch;
@@ -281,7 +359,7 @@ function placeSearch(centerpos, radius, keyword,placetype){
             pageSize: 8,
             type: placetype
         }); //构造地点查询类
-        AMap.event.addListener(MSearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+        AMap.event.addListener(MSearch, "complete", callback); //查询成功时的回调函数
         AMap.event.addListener(MSearch, "error", function(){
             alert("msearch error!");
         }); //查询成功时的回调函数
@@ -292,6 +370,16 @@ function placeSearch(centerpos, radius, keyword,placetype){
     });
 }
 
+
+function getFirstSearchRes_CallBack(data){
+    var resultStr="";
+    var resultArr = data.poiList.pois;
+    var resultNum = resultArr.length; 
+
+    printlog("resultNum:"+resultNum);
+    if(resultNum > 0)
+        document.getElementById("shopname").value = resultArr[0].name;
+}
 
 //地点查询回调函数
 function placeSearch_CallBack(data){
