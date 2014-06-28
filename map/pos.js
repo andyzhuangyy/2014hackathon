@@ -180,6 +180,7 @@ function autocomplete_CallBack(data) {
     document.getElementById("result1").style.display = "block";
 }
 
+
 //从输入提示框中选择关键字并查询
 function selectResult(index) {
     if (navigator.userAgent.indexOf("MSIE") > 0) {
@@ -273,25 +274,6 @@ function placeSearch(centerpos, radius, keyword,placetype){
     mapObj.clearMap();
     var arr = new Array();
     var MSearch;
-    //var precise = {lng:"0.05", lat:"0.05"};
-
-    //var lefttop = new AMap.LngLat(centerpos.lng - precise.lng, centerpos.lat - precise.lat);
-    //var rightbot = new AMap.LngLat(centerpos.lng + precise.lng, centerpos.lat - precise.lat);
-    
-    //绘制矩形边框  
-    //arr.push(new AMap.LngLat("116.423321","39.884055"));
-    //arr.push(new AMap.LngLat("116.473103","39.884055"));
-    //arr.push(new AMap.LngLat("116.473103","39.919348"));
-    //arr.push(new AMap.LngLat("116.423321","39.919348"));
-    //var polygon = new AMap.Polygon({
-        //map:mapObj,
-        //path:arr,
-        //strokeColor:"#0000ff",
-        //strokeOpacity:0.2,
-        //strokeWeight:3,
-        //fillColor: "#f5deb3",
-        //fillOpacity: 0.8
-    //});  
     mapObj.plugin(["AMap.PlaceSearch"], function() { //加载PlaceSearch服务插件     
         MSearch = new AMap.PlaceSearch({
             pageSize: 8,
@@ -327,9 +309,10 @@ function placeSearch_CallBack(data){
 }  
 
 //添加marker和infowindow 
-function addmarker_cus(i, d, _content){
-    var lngX = d.location.getLng();
-    var latY = d.location.getLat();
+//{lng:12,lat:111}
+function addmarker_cus(i, lnglat, _content){
+    var lngX = lnglat.lng;
+    var latY = lnglat.lat
     var markerOption = {
         map:mapObj,
         icon:"http://webapi.amap.com/images/"+(i+1)+".png",
