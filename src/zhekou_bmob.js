@@ -1,10 +1,10 @@
 
 //Bmob.initialize("f68361468fc3da0e4cad11abe332f52b", "24bea47249265caff6d88889ff0aaf01");
-function PubDaZhe(_usr, _brand, _discount, _desc) {
+function PubDaZhe(_usr, _brand, _discount, _desc, _longi, _lat, _geo_id) {
 	var dat = new Date();
 	var time = dat.toLocaleDateString();
-	var geo_point = new Bmob.GeoPoint(39.90923, 116.39742816);
-	var geo_id = "B000A83U0P";
+	var geo_point = new Bmob.GeoPoint(_longi, _lat);
+	var geo_id = _geo_id;//"B000A83U0P";
 	var ZheKouInfo = Bmob.Object.extend("ZheKouInfo");
 	var zhe_kou_info = new ZheKouInfo();
 	zhe_kou_info.save({
