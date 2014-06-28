@@ -9,3 +9,5 @@ Group member:
 * zhuangyy
 * yuanfengqi
 * lifulong
+
+Fix@2014.6.28
