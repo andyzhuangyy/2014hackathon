@@ -8,6 +8,8 @@ var clicklnglat = new AMap.LngLat(0, 0);
 
 var geolocation;
 
+var gcircle = null;
+
 var marker = new Array();
 var windowsArr = new Array();
 function printlog(str)
@@ -331,6 +333,67 @@ function addmarker_cus(i, lnglat, _content){
     var aa = function(){infoWindow.open(mapObj, mar.getPosition());}; 
     AMap.event.addListener(mar, "click", aa); 
 }
+
+
+
+//添加圆覆盖物
+function addCircle(_lnglat, _radius) {
+   gcircle = new AMap.Circle({
+       center:new AMap.LngLat(lnglat.lng,lnglat.lat),// 圆心位置
+       radius:_radius, //半径
+       strokeColor: "#F33", //线颜色
+       strokeOpacity: 1, //线透明度
+       strokeWeight: 3, //线粗细度
+       fillColor: "#ee2200", //填充颜色
+       fillOpacity: 0.35//填充透明度
+   });
+   gcircle.setMap(mapObj);
+}
+
+//更新圆形，除此以外还可通过插件AMap.CircleEditor进行线覆盖物的更新，详情参看AMap.CircleEditor相关示例介绍
+function updateCircle(_lnglat, _radius){
+    //新圆形属性
+    var circleoptions={      
+        center:new AMap.LngLat(lnglat.lng,lnglat.lat),// 新圆心位置
+        radius:_radius, //新半径
+        strokeColor: "#0000FF", //线颜色
+        strokeOpacity: 1, //线透明度
+        strokeWeight: 3, //线粗细度
+        fillColor: "#ee2200", //填充颜色
+        fillOpacity: 0.35//填充透明度
+    };
+    gcircle.setOptions(circleoptions);//更新圆属性
+}
+
+function HideCircle(){
+    gcircle.hide();
+}
+function ShowCircle(_lnglat, _radius){
+    if(null == gcircle){
+        addCircle(_lnglat, _radius);
+    }
+    else{
+        updateCircle(_lnglat, _radius);
+    }
+
+    gcircle.show();
+}
+
+
+
+function FilterInCircle(data, centerLnglat, radius){
+    var tmpArr = new Array();
+    var center = new AMap.LngLat(centerLnglat.lng, centerLnglat.lat);
+    var len = data.length;
+    for(var i = 0; i < len; ++i){
+        var tmpobj = new AMap.LngLat(data[i].geo_point.lng, data[i].geo_point.lat);
+        if(center.distance(tmpobj) <= radius)
+            tmpArr.push(data[i]);
+    }
+    return tmpArr;
+}
+
+
 
 //添加marker和infowindow 
 function addmarker(i, d, contentfunc){
