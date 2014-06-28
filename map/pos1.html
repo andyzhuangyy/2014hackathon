@@ -2,19 +2,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>µ±Ç°Î»ÖÃ¾«È·¶¨Î»</title>
-<!-- Ò³Ãæ²¼¾ÖÑùÊ½ -->
+<title>å½“å‰ä½ç½®ç²¾ç¡®å®šä½</title>
+<!-- é¡µé¢å¸ƒå±€æ ·å¼ -->
 <link rel="stylesheet" type="text/css" href="http://developer.amap.com/Public/css/demo.Default.css" />
-<script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=ÄúÉêÇëµÄkeyÖµ"></script>
+<script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=æ‚¨ç”³è¯·çš„keyå€¼"></script>
 <script language="javascript">
 var mapObj,toolBar,locationInfo;
  
-//³õÊ¼»¯µØÍ¼¶ÔÏó£¬¼ÓÔØµØÍ¼
+//åˆå§‹åŒ–åœ°å›¾å¯¹è±¡ï¼ŒåŠ è½½åœ°å›¾
 function mapInit(){
     mapObj = new AMap.Map("iCenter");
-    //µØÍ¼ÖĞÌí¼ÓµØÍ¼²Ù×÷ToolBar²å¼ş
+    //åœ°å›¾ä¸­æ·»åŠ åœ°å›¾æ“ä½œToolBaræ’ä»¶
     mapObj.plugin(["AMap.ToolBar"],function(){     
-        toolBar = new AMap.ToolBar(); //ÉèÖÃµØÎ»±ê¼ÇÎª×Ô¶¨Òå±ê¼Ç
+        toolBar = new AMap.ToolBar(); //è®¾ç½®åœ°ä½æ ‡è®°ä¸ºè‡ªå®šä¹‰æ ‡è®°
         mapObj.addControl(toolBar);    
         AMap.event.addListener(toolBar,'location',function callback(e){
             locationInfo = e.lnglat;           
@@ -22,22 +22,22 @@ function mapInit(){
     });
 }
      
-//»ñÈ¡¶¨Î»Î»ÖÃĞÅÏ¢
+//è·å–å®šä½ä½ç½®ä¿¡æ¯
 function showLocationInfo()
 {
-    var locationX = locationInfo.lng; //¶¨Î»×ø±ê¾­¶ÈÖµ
-    var locationY = locationInfo.lat; //¶¨Î»×ø±êÎ³¶ÈÖµ
-    document.getElementById('info').innerHTML = "¶¨Î»µã×ø±ê£º("+locationX+","+locationY+")";
+    var locationX = locationInfo.lng; //å®šä½åæ ‡ç»åº¦å€¼
+    var locationY = locationInfo.lat; //å®šä½åæ ‡çº¬åº¦å€¼
+    document.getElementById('info').innerHTML = "å®šä½ç‚¹åæ ‡ï¼š("+locationX+","+locationY+")";
 }
 </script>
 </head>
 <body onLoad="mapInit()">
     <div id="iCenter"></div>
     <div style="padding:2px 0px 0px 5px;font-size:12px"> 
-        <input type="button" value="¿ªÊ¼¶¨Î»" onClick="javascript:toolBar.doLocation()"/> 
-        <input type="button" value="ÏÔÊ¾Î»ÖÃĞÅÏ¢" onClick="javascript:showLocationInfo()"/>
+        <input type="button" value="å¼€å§‹å®šä½" onClick="javascript:toolBar.doLocation()"/> 
+        <input type="button" value="æ˜¾ç¤ºä½ç½®ä¿¡æ¯" onClick="javascript:showLocationInfo()"/>
         <div id="info" style="margin-top:10px;margin-left:10px;height:30px"></div>
-         <div style="color: #C0C0C0">²»Ö§³ÖIE9ÒÔÏÂ°æ±¾</div>
+         <div style="color: #C0C0C0">ä¸æ”¯æŒIE9ä»¥ä¸‹ç‰ˆæœ¬</div>
     </div>
 </body>
 </html>   
