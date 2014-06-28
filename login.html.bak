@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>login</title>
+<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=405155390" type="text/javascript" charset="utf-8"></script>
+
+<script language="javascript">
+
+
+</script>
+
+
+</head>
+<body >
+	
+	<div id="wb_connect_btn"></div>
+	
+ <script language="javascript">
+WB2.anyWhere(function(W){
+    W.widget.connectButton({
+        id: "wb_connect_btn",
+        type: '3,2',
+        callback : {
+            login:function(o){
+                alert(o.screen_name)
+            },
+            logout:function(){
+                alert('logout');
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
