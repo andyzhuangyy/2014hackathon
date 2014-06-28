@@ -190,6 +190,16 @@ function selectResultShopName(index) {
     var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
     document.getElementById("shopname").value = text;
     document.getElementById("shopsearchres").style.display = "none";
+    //document.getElementById("lng").value = resultArr[0].location.getLng();
+    //document.getElementById("lat").value = resultArr[0].location.getLat();
+    //根据选择的输入提示关键字查询
+    mapObj.plugin(["AMap.PlaceSearch"], function() {       
+        var msearch = new AMap.PlaceSearch();  //构造地点查询类
+        AMap.event.addListener(msearch, "complete", getFirstSearchRes_CallBack); //查询成功时的回调函数
+        msearch.search(text);  //关键字查询查询
+    });
+
+
 }
 
 function autocompleteShopName_CallBack(data) {
@@ -377,8 +387,12 @@ function getFirstSearchRes_CallBack(data){
     var resultNum = resultArr.length; 
 
     printlog("resultNum:"+resultNum);
-    if(resultNum > 0)
+
+    if(resultNum > 0){
         document.getElementById("shopname").value = resultArr[0].name;
+        document.getElementById("lng").value = resultArr[0].location.getLng();
+        document.getElementById("lat").value = resultArr[0].location.getLat();
+    }
 }
 
 //地点查询回调函数
@@ -543,7 +557,8 @@ function TipContents(type,address,tel){  //窗体内容
 
 function openMarkerTipById1(pointid,thiss){  //根据id打开搜索结果点tip 
     thiss.style.background='#CAE1FF'; 
-    windowsArr[pointid].open(mapObj, marker[pointid]);     
+    if(windowsArr !=undefined && windowsArr[pointid] != undefined)
+        windowsArr[pointid].open(mapObj, marker[pointid]);     
 } 
 function onmouseout_MarkerStyle(pointid,thiss) { //鼠标移开后点样式恢复 
    thiss.style.background="";  

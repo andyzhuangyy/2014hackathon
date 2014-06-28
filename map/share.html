@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>share</title>
+<!-- 页面布局样式 -->
+
+<link rel="stylesheet" type="text/css" href="http://developer.amap.com/Public/css/demo.Default.css" />
+<script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=f033ae97b8edf65ededed38cbf019e31"></script>
+<script language="javascript" src="pos.js"></script>
+<script language="javascript" src="../src/zhekou_bmob.js"></script>
+
+<script language="javascript" src="../src/bmob-min.js"></script>
+<script type="text/javascript">
+
+	Bmob.initialize("f68361468fc3da0e4cad11abe332f52b", "24bea47249265caff6d88889ff0aaf01");
+</script>
+<script language="javascript">
+    function buttonOnclick(){
+        var name = document.getElementById("shopname").value;
+        var discount = document.getElementById("discount").value;
+        var descript = document.getElementById("descript").value;
+        var lng = document.getElementById("lng").value.valueOf();
+        var lat = document.getElementById("lat").value.valueOf();
+        PubDaZhe("user", name, discount, descript, lng, lat, "EEEEEEEE");
+        printlog(""+name + " "+lng + "," +lat);
+           
+    }
+
+</script>
+
+
+</head>
+<body onload="shareMapInit()">
+    <div id="iCenter" hidden=true align="center" width="800" height="600"></div>
+    <div align="center">
+    <p>商场: <input type="text" name="shopname" value="" id="shopname"></p>
+    <p hidden=true><input type="text" name="lng" value="0" id="lng"></p>
+    <p hidden=true><input type="text" name="lat" value="0" id="lat"></p>
+
+    <p>品牌: <input type="text" name="brand" value="" id="brand"></p>
+	
+    <p>折扣: <input type="text" name="discount" value="" id="discount"></p>
+    
+    <p>描述: <input type="text" name="descript" value="" id="descript"></p>
+    <p><input type="button" name="discount" value="分享" id="discount" onclick=buttonOnclick();></p>
+    </div>
+
+    <div id='shopsearchres' align="center">
+        
+    </div>
+
+	<div id='log'>
+        
+    </div>
+</body>
+</html>
