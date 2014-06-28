@@ -381,7 +381,17 @@ function ShowCircle(_lnglat, _radius){
 
 
 
-
+function FilterInCircle(data, centerLnglat, radius){
+    var tmpArr = new Array();
+    var center = new AMap.LngLat(centerLnglat.lng, centerLnglat.lat);
+    var len = data.length;
+    for(var i = 0; i < len; ++i){
+        var tmpobj = new AMap.LngLat(data[i].geo_point.lng, data[i].geo_point.lat);
+        if(center.distance(tmpobj) <= radius)
+            tmpArr.push(data[i]);
+    }
+    return tmpArr;
+}
 
 
 
