@@ -6,9 +6,16 @@
 <link href="/src/common.css" type="text/css" rel="stylesheet" />
 
 <style type="text/css">
-html{height:100%}
-body{height:100%;margin:0px;padding:0px}
-#dazhe_map_div{height:100%}
+
+html {height:100%}
+body {height:100%;margin:0px;padding:0px}
+.wrapper {height:95%}
+.bottom { height:5%;
+}
+#dazhe_map_div {
+	height:95%;
+}
+
 </style>
 
 <style type="text/css">
@@ -60,14 +67,22 @@ input {
 		var td1 = tr.insertCell(1);
 		var td2 = tr.insertCell(2);
 		var td3 = tr.insertCell(3);
+		var td4 = tr.insertCell(4);
+		var td5 = tr.insertCell(5);
 
 		td0.innerHTML = '<td>' + obj.get('usr') + '</td>';
 		td1.innerHTML = '<td>' + obj.get('brand') + '</td>';
-		if(!ishead)
+		if(!ishead) {
 			td2.innerHTML = '<td class="desc" style="width:240px">' + '<a href=javascript:dazhe_location(\"' + obj.get('usr') + '\")>' 
 				+ obj.get('desc') + '</a>' + '</td>';
-		else
+			td4.innerHTML = '<td>' + '<image src="./../img/.jpg">' + '</td>';
+			td5.innerHTML = '<td>' + '<image src="./../img/.jpg">' + '</td>';
+		}
+		else {
 			td2.innerHTML = '<td class="desc" style="width:240px">' + obj.get('desc') + '</td>';
+			td4.innerHTML = '<td>' + '赞' + '</td>';
+			td5.innerHTML = '<td>' + '踩' + '</td>';
+		}
 		td3.innerHTML = '<td>' + obj.get('discount') + '</td>';
 		td2.style.width = "300px";
 	}
@@ -140,11 +155,14 @@ input {
 		//QueryDaZheByBrand("AnTa", list_display);
 	}
 
-	function test_api() {
+	function pub_zhekou() {
 		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠");
 		//QueryDaZheByBrand("AnTa");
 		//var geo_point = new Bmob.GeoPoint(16, 39);
 		//QueryDaZheByGeo((16, 39), list_display);
+	}
+
+	function change_view() {
 	}
 
 	window.onload = init();
@@ -153,6 +171,7 @@ input {
 
 <body>
 
+<div class="wrapper" align=center>
 	<div class="dazhe_list_div" id="dazhe_list_div">
 		<table class="dazhe_list" id="dazhe_list">
 		</table>
@@ -160,8 +179,12 @@ input {
 
 	<div class="dazhe_map_div" id = "dazhe_map_div">
 	</div>
+</div>
 
-	<input type="button" name="Submit" value="分享" onClick="test_api()" >
+<div class="bottom" align=center>
+	<input type="button" name="ChangeView" value="切换视图" align="center" onClick="change_view()" >
+	<input type="button" name="Publish" value="发布信息" align="center" onClick="pub_zhekou()" >
+</div>
 
 </body>
 

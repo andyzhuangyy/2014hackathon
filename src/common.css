@@ -1,8 +1,12 @@
 
 
-button { 
+input { 
 	width:120px; 
-	height:28px;
+	height:32px;
+	line-height:32px;
+	background:#4F4F4F;
+	font:32px;
+	display:inline-block;
 }
 
 table { 
@@ -29,14 +33,15 @@ td {
 	height:28px;
 }
 
-/*
 td .desc {
 	width:240px; 
 }
 
-#dazhe_map_div {
+.dazhe_map_div {
 	display:none;
 }
-*/
+
+.wrapper {
+}
 
 
