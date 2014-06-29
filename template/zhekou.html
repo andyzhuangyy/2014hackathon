@@ -90,6 +90,7 @@ input {
 			td5.innerHTML = '<td>' + '踩' + '</td>';
 		}
 		td3.innerHTML = '<td>' + obj.discount + '</td>';
+		td1.style.width = "250px";
 		td2.style.width = "300px";
 	}
 
@@ -195,7 +196,7 @@ input {
 			var dazhe_page = "<h3 align=center>" + all_query_zhekou[index].brand + "</h3><p><b>折扣</b>:" 
 				+ all_query_zhekou[index].discount 
 				+ "</p><p><b>描述</b>:" + all_query_zhekou[index].desc + "</p>";
-			addmarker_cus(0, geo_point, dazhe_page);
+			addmarker_cus(index, geo_point, dazhe_page);
 		}
 	}
 
