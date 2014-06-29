@@ -19,7 +19,7 @@ function PubDaZhe(_usr, _brand, _discount, _desc, _lat, _longi, _geo_id) {
 		desc:_desc
 			},{
 				success: function(zhe_kou_info) {
-					alert("Pub Ok.");
+					//alert("Pub Ok.");
 					},
 				err: function(zhe_kou_info, error) {
 				alert("Pub Error.");
