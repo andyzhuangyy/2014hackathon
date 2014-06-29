@@ -3,7 +3,6 @@
 function PubDaZhe(_usr, _brand, _discount, _desc, _lat, _longi, _geo_id) {
 	var dat = new Date();
 	var time = dat.toLocaleDateString();
-	alert("long:" + _longi + " lat:" + _lat + ":");
 	var geo_point = new Bmob.GeoPoint(_lat, _longi);
 	//var geo_id = _geo_id;//"B000A83U0P";
 	var ZheKouInfo = Bmob.Object.extend("ZheKouInfo");
@@ -63,8 +62,13 @@ function QueryDaZheByGeo(_geo_point, func) {
 	var ZheKouInfo = Bmob.Object.extend("ZheKouInfo");
 	var query = new Bmob.Query(ZheKouInfo);
 
+	var geo_southwest = new Bmob.GeoPoint(_geo_point.latitude - 0.1, _geo_point.longitude - 0.1);
+	var geo_northeast = new Bmob.GeoPoint(_geo_point.latitude + 0.1, _geo_point.longitude + 0.1);
+
 	query.equalTo("start_dat", time);
-	query.equalTo("geo_point", _geo_point);
+	//query.withinRadians("geo_point", _geo_point, 0.01);
+	query.withinGeoBox("geo_point", geo_southwest, geo_northeast);
+	//query.equalTo("geo_point", _geo_point);
 
 	query.find({
 				success: function(results){
