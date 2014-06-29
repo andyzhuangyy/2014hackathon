@@ -6,7 +6,12 @@
 <!-- 页面布局样式 -->
 
 <link rel="stylesheet" type="text/css" href="http://developer.amap.com/Public/css/demo.Default.css" />
+<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css" />
+
 <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=f033ae97b8edf65ededed38cbf019e31"></script>
+
+<script language="javascript" src="../bootstrap/jquery-2.1.1.min.js"></script>
+<script language="javascript" src="../bootstrap/js/bootstrap.min.js"></script>
 <script language="javascript" src="pos.js"></script>
 <script language="javascript" src="../src/zhekou_bmob.js"></script>
 
@@ -20,10 +25,15 @@
         var name = document.getElementById("shopname").value;
         var discount = document.getElementById("discount").value;
         var descript = document.getElementById("descript").value;
-        var lng = document.getElementById("lng").value.valueOf();
-        var lat = document.getElementById("lat").value.valueOf();
-        PubDaZhe("user", name, discount, descript, lng, lat, "EEEEEEEE");
+        var lng = document.getElementById("lng").value - '0.0';
+        var lat = document.getElementById("lat").value - '0.0';
+        //PubDaZhe("user", name, discount, descript, 39.3, 102, "EEEEEEEE");
+        //PubDaZhe("user", name, discount, descript, lng, lat, "EEEEEEEE");
+        PubDaZhe("user", name, discount, descript, lat,lng, "EEEEEEEE");
         printlog(""+name + " "+lng + "," +lat);
+
+
+        $('#myModal').modal('hide');
            
     }
 
@@ -33,22 +43,50 @@
 </head>
 <body onload="shareMapInit()">
     <div id="iCenter" hidden=true align="center" width="800" height="600"></div>
-    <div align="center">
-    <p>商场: <input type="text" name="shopname" value="" id="shopname"></p>
-    <p hidden=true><input type="text" name="lng" value="0" id="lng"></p>
-    <p hidden=true><input type="text" name="lat" value="0" id="lat"></p>
+   
 
-    <p>品牌: <input type="text" name="brand" value="" id="brand"></p>
-	
-    <p>折扣: <input type="text" name="discount" value="" id="discount"></p>
-    
-    <p>描述: <input type="text" name="descript" value="" id="descript"></p>
-    <p><input type="button" name="discount" value="分享" id="discount" onclick=buttonOnclick();></p>
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    发布 
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+
+             <div align="center">
+                <p>商场: <input type="text" name="shopname" value="" id="shopname"></p>
+                <p hidden=true><input type="text" name="lng" value="0" id="lng"></p>
+                <p hidden=true><input type="text" name="lat" value="0" id="lat"></p>
+
+                <p>品牌: <input type="text" name="brand" value="" id="brand"></p>
+                
+                <p>折扣: <input type="text" name="discount" value="" id="discount"></p>
+                
+                <p>描述: <input type="text" name="descript" value="" id="descript"></p>
+
+                <div id='shopsearchres' align="center">
+                    
+                </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick=buttonOnclick()>发布</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id='shopsearchres' align="center">
-        
-    </div>
+
+
 
 	<div id='log'>
         
