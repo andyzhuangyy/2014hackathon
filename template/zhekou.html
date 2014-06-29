@@ -192,8 +192,9 @@ input {
 			var geo_point = new Object();
 			geo_point.lng = all_query_zhekou[index].geo_point.longitude;
 			geo_point.lat = all_query_zhekou[index].geo_point.latitude;
-			var dazhe_page = "<h3 align=center>" + all_query_zhekou[index].brand + "</h3><p>折扣:" + all_query_zhekou[index].discount 
-				+ "</p><p>描述:" + all_query_zhekou[index].desc + "</p>";
+			var dazhe_page = "<h3 align=center>" + all_query_zhekou[index].brand + "</h3><p><b>折扣</b>:" 
+				+ all_query_zhekou[index].discount 
+				+ "</p><p><b>描述</b>:" + all_query_zhekou[index].desc + "</p>";
 			addmarker_cus(0, geo_point, dazhe_page);
 		}
 	}
