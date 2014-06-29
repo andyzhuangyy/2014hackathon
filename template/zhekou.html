@@ -156,13 +156,13 @@ input {
 	}
 
 	function init() {
-		var geo_point = new Bmob.GeoPoint(39.90923, 116.39742816);
+		var geo_point = new Bmob.GeoPoint(39.978964, 116.310266);
 		QueryDaZheByGeo(geo_point, list_display);
 		//QueryDaZheByBrand("AnTa", list_display);
 	}
 
 	function pub_zhekou() {
-		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠", 39.90923, 116.39742816, "B000A83U0P");
+		PubDaZhe("peter", "Anta", "0.7", "安踏专卖店今日全场所有商品7折优惠", 39.978964, 116.310266, "B000A83U0P");
 		//QueryDaZheByBrand("AnTa");
 		//var geo_point = new Bmob.GeoPoint(16, 39);
 		//QueryDaZheByGeo((16, 39), list_display);
@@ -172,7 +172,7 @@ input {
 		window.document.getElementById("dazhe_list_div").style.display="none";
 		window.document.getElementById("dazhe_map_div").style.display="block";
 
-		var lnglat = new AMap.LngLat(116.39742816, 39.90923);
+		var lnglat = new AMap.LngLat(116.310266, 39.978964);
 		mapObj = new AMap.Map("dazhe_map_div", {
 			view: new AMap.View2D({
 				center:lnglat, 
@@ -180,10 +180,10 @@ input {
 				rotation:0
 					  })
 				});
+		/*
 		var dazhe_page = "<h3 align=center>" + all_query_zhekou[0].brand + "</h3><p>折扣:" + all_query_zhekou[0].discount 
 			+ "</p><p>描述:" + all_query_zhekou[0].desc + "</p>";
 		var geo_point = new Object();
-		/*
 		geo_point.lng = lng;
 		geo_point.lat = lat;
 		addmarker_cus(0, geo_point, dazhe_page);
