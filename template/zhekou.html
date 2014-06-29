@@ -29,6 +29,11 @@ input {
 
 </style>
 
+<link rel="stylesheet" type="text/css" href="http://developer.amap.com/Public/css/demo.Default.css" />
+<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css" />
+<script language="javascript" src="../bootstrap/jquery-2.1.1.min.js"></script>
+<script language="javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=yourkey">
 </script>
 <script type="text/javascript" src="../src/pos.js">
@@ -39,6 +44,25 @@ input {
 <script type="text/javascript" src="../src/zhekou_bmob.js">
 </script>
 <script type="text/javascript" src="../src/common.js">
+</script>
+
+<script language="javascript">
+    function buttonOnclick(){
+        var name = document.getElementById("shopname").value;
+        var discount = document.getElementById("discount").value;
+        var descript = document.getElementById("descript").value;
+        var lng = document.getElementById("lng").value - '0.0';
+        var lat = document.getElementById("lat").value - '0.0';
+        //PubDaZhe("user", name, discount, descript, 39.3, 102, "EEEEEEEE");
+        //PubDaZhe("user", name, discount, descript, lng, lat, "EEEEEEEE");
+        PubDaZhe("user", name, discount, descript, lat,lng, "EEEEEEEE");
+        printlog(""+name + " "+lng + "," +lat);
+
+
+        $('#myModal').modal('hide');
+           
+    }
+
 </script>
 
 <script type="text/javascript">
@@ -96,8 +120,7 @@ input {
 
 	function dazhe_list_add_head() {
 		var obj = {usr:"用户", brand:"商店", desc:"折扣信息", discount:"折扣", up:"赞", down:"踩"};
-		obj.get = function (attr) {
-			return obj[attr];
+		obj.get = function (attr) { return obj[attr];
 		}
 		dazhe_list_add(obj, true);
 	}
@@ -233,9 +256,57 @@ input {
 </div>
 
 <div class="bottom" align=center>
+	<!--
 	<input type="button" name="ChangeView" value="切换视图" align="center" onClick="change_view()" >
-	<input type="button" name="Publish" value="发布信息" align="center" onClick="pub_zhekou()" >
+	<input type="button" name="Publish" value="发布信息" align="center" data-target="#myModal">
+	-->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" onClick="change_view()">
+    切换 
+    </button>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    发布
+    </button>
 </div>
+
+    <div id="iCenter" hidden=true align="center" width="800" height="600"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+
+             <div align="center">
+                <p>商场: <input type="text" name="shopname" value="" id="shopname"></p>
+                <p hidden=true><input type="text" name="lng" value="0" id="lng"></p>
+                <p hidden=true><input type="text" name="lat" value="0" id="lat"></p>
+
+                <p>品牌: <input type="text" name="brand" value="" id="brand"></p>
+                
+                <p>折扣: <input type="text" name="discount" value="" id="discount"></p>
+                
+                <p>描述: <input type="text" name="descript" value="" id="descript"></p>
+
+                <div id='shopsearchres' align="center">
+                    
+                </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick=buttonOnclick()>发布</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<div id='log'>
+    </div>
 
 </body>
 
