@@ -5,13 +5,13 @@ function PubDaZhe(_usr, _brand, _discount, _desc, _lat, _longi, _geo_id) {
 	var time = dat.toLocaleDateString();
 	alert("long:" + _longi + " lat:" + _lat + ":");
 	var geo_point = new Bmob.GeoPoint(_lat, _longi);
-	var geo_id = _geo_id;//"B000A83U0P";
+	//var geo_id = _geo_id;//"B000A83U0P";
 	var ZheKouInfo = Bmob.Object.extend("ZheKouInfo");
 	var zhe_kou_info = new ZheKouInfo();
 	zhe_kou_info.save({
 		usr:_usr,
 		geo_point:geo_point,
-		geo_id:geo_id,
+		geo_id:_geo_id,
 		brand:_brand,
 		agree:"0",
 		start_dat:time,
