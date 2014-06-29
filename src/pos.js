@@ -12,11 +12,11 @@ var gcircle = null;
 
 var marker = new Array();
 var windowsArr = new Array();
-function printlog(str)
-{
-    document.getElementById("log").innerHTML+= str;
-    document.getElementById("log").innerHTML+= "<br>";
-} 
+//function printlog(str)
+//{
+    //document.getElementById("log").innerHTML+= str;
+    //document.getElementById("log").innerHTML+= "<br>";
+//} 
 
  
 function getCurrentPos(){
@@ -36,7 +36,7 @@ function getClickLnglat(e){
 function showClickPos(e) {
     getClickLnglat(e);
     //locationInfo = clicklnglat;
-    printlog("current pos:"+clicklnglat.lng + ","+clicklnglat.lat);
+    //printlog("current pos:"+clicklnglat.lng + ","+clicklnglat.lat);
     searchShopServcie(clicklnglat,1000);
 }
 
@@ -127,6 +127,8 @@ function shareMapInit(){
         zoom:13 //地图显示的缩放级别
         })
     });
+
+    //alert("1placesearch");
     //地图中添加地图操作ToolBar插件
     mapObj.plugin(["AMap.ToolBar"],function(){     
         toolBar = new AMap.ToolBar(); //设置地位标记为自定义标记
@@ -134,6 +136,7 @@ function shareMapInit(){
         AMap.event.addListener(toolBar,'location',function callback(e){
             locationInfo = e.lnglat;           
 
+            //alert("placesearch");
             placeSearch(locationInfo, 1000, "购物中心","060101", getFirstSearchRes_CallBack);
          
 
@@ -312,7 +315,7 @@ function searchNearestPlace(centerpos, keyword){
             alert("msearch error!");
         }); //查询成功时的回调函数
         //MSearch.searchInBounds("", new AMap.Bounds(lefttop, rightbot)); //范围查询
-        printlog("center pos: "+centerpos.lng + "," + centerpos.lat);
+        //printlog("center pos: "+centerpos.lng + "," + centerpos.lat);
         //alert(""+centerpos);
         MSearch.searchNearBy(keyword, centerpos, 10); //范围查询
     });
@@ -374,7 +377,7 @@ function placeSearch(centerpos, radius, keyword,placetype, callback){
             alert("msearch error!");
         }); //查询成功时的回调函数
         //MSearch.searchInBounds("", new AMap.Bounds(lefttop, rightbot)); //范围查询
-        printlog("center pos: "+centerpos.lng + "," + centerpos.lat);
+        //printlog("center pos: "+centerpos.lng + "," + centerpos.lat);
         //alert(""+centerpos);
         MSearch.searchNearBy(keyword, centerpos, radius); //范围查询
     });
@@ -386,7 +389,7 @@ function getFirstSearchRes_CallBack(data){
     var resultArr = data.poiList.pois;
     var resultNum = resultArr.length; 
 
-    printlog("resultNum:"+resultNum);
+    //printlog("resultNum:"+resultNum);
 
     if(resultNum > 0){
         document.getElementById("shopname").value = resultArr[0].name;

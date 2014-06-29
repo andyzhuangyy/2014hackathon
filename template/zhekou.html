@@ -38,7 +38,7 @@ input {
 <script language="javascript" src="../bootstrap/jquery-2.1.1.min.js"></script>
 <script language="javascript" src="../bootstrap/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=yourkey">
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=f033ae97b8edf65ededed38cbf019e31">
 </script>
 <script type="text/javascript" src="../src/pos.js">
 </script>
@@ -201,7 +201,12 @@ input {
 		window.document.getElementById("dazhe_list_div").style.display="none";
 		window.document.getElementById("dazhe_map_div").style.display="block";
 
-		var lnglat = new AMap.LngLat(116.310266, 39.978964);
+		var lnglat;
+        if(locationInfo == null || locationInfo.lng == 0 || locationInfo.lat == 0)
+            lnglat = new AMap.LngLat(116.310266, 39.978964);
+        else
+            lnglat = locationInfo;
+        
 		mapObj = new AMap.Map("dazhe_map_div", {
 			view: new AMap.View2D({
 				center:lnglat, 
@@ -235,6 +240,7 @@ input {
 	}
 
 	function change_view() {
+        //alert('change');
 		if(current_view == 1) {
 			current_view = 2;
 			list_to_map_view();
@@ -244,11 +250,12 @@ input {
 		}
 	}
 
-	window.onload = init();
+	//window.onload = init();
 
 </script>
 
-<body>
+<body onload="init()">
+<div id="iCenter" hidden=true align="center" width="800" height="600"></div>
 
 <div class="wrapper" align=center>
 	<div class="dazhe_list_div" id="dazhe_list_div">
@@ -268,12 +275,11 @@ input {
     <button class="btn btn-primary btn-lg" data-toggle="modal" onClick="change_view()">
     切换 
     </button>
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" >
     发布
     </button>
 </div>
 
-    <div id="iCenter" hidden=true align="center" width="800" height="600"></div>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -284,7 +290,10 @@ input {
             <h4 class="modal-title" id="myModalLabel">折扣信息发布</h4>
           </div>
           <div class="modal-body">
-
+              
+              <script type="text/javascript">
+                //shareMapInit();
+            </script>
              <div align="center">
                 <p>商场: <input type="text" name="shopname" value="" id="shopname"></p>
                 <p hidden=true><input type="text" name="lng" value="0" id="lng"></p>
@@ -310,8 +319,6 @@ input {
       </div>
     </div>
 
-	<div id='log'>
-    </div>
 
 </body>
 
